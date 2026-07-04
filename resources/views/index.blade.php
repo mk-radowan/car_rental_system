@@ -116,7 +116,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-
+                        $('#myModal').modal('hide');
                     },
                     error: function(err) {
                         let errors = err.responseJSON.errors;
