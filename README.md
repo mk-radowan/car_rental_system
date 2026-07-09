@@ -1,6 +1,6 @@
 # Pothik — Car Rental Platform with Real-Time Availability
 
-Production-ready Laravel MVC academic project for **India** — MySQL, Blade + Bootstrap 5, INR pricing.
+Production-ready Laravel MVC academic project for **Bangladesh** — MySQL, Blade + Bootstrap 5, BDT pricing.
 
 ## Tech Stack
 
