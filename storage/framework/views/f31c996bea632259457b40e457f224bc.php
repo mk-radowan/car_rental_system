@@ -237,6 +237,92 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Journey Start Location (Division / District / Upazila)</label>
+                                    <input type="hidden" name="pickup_location" value="<?php echo e(old('pickup_location')); ?>"
+                                        data-bd-location-value>
+                                    <div class="row g-2" data-bd-location-picker
+                                        data-selected-location="<?php echo e(old('pickup_location')); ?>"
+                                        data-all-divisions-label="Select Division"
+                                        data-all-districts-label="Select District" data-all-upazilas-label="Select Upazila">
+                                        <div class="col-12">
+                                            <select class="form-select form-select-sm <?php $__errorArgs = ['pickup_location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                data-bd-division-select required>
+                                                <option value="">Select Division</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" data-bd-district-select required>
+                                                <option value="">Select District</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" data-bd-upazila-select required>
+                                                <option value="">Select Upazila</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <?php $__errorArgs = ['pickup_location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Journey End Location (Division / District / Upazila)</label>
+                                    <input type="hidden" name="dropoff_location" value="<?php echo e(old('dropoff_location')); ?>"
+                                        data-bd-location-value>
+                                    <div class="row g-2" data-bd-location-picker
+                                        data-selected-location="<?php echo e(old('dropoff_location')); ?>"
+                                        data-all-divisions-label="Select Division"
+                                        data-all-districts-label="Select District" data-all-upazilas-label="Select Upazila">
+                                        <div class="col-12">
+                                            <select class="form-select form-select-sm <?php $__errorArgs = ['dropoff_location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                data-bd-division-select required>
+                                                <option value="">Select Division</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" data-bd-district-select required>
+                                                <option value="">Select District</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select class="form-select form-select-sm" data-bd-upazila-select required>
+                                                <option value="">Select Upazila</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <?php $__errorArgs = ['dropoff_location'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
                                 <div
                                     style="background:#fef2f3;border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid rgba(232,25,44,0.15)">
                                     <p style="margin:0;font-size:0.85rem;color:#374151">

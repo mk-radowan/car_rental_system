@@ -41,7 +41,13 @@
                                 data-bd-location-value>
                             <div class="row g-2" data-bd-location-picker
                                 data-selected-location="{{ $filters['location'] ?? '' }}"
+                                data-all-divisions-label="All Divisions"
                                 data-all-districts-label="All Districts" data-all-upazilas-label="All Upazilas">
+                                <div class="col-12">
+                                    <select class="form-select form-select-sm" data-bd-division-select>
+                                        <option value="">All Divisions</option>
+                                    </select>
+                                </div>
                                 <div class="col-6">
                                     <select class="form-select form-select-sm" data-bd-district-select>
                                         <option value="">All Districts</option>

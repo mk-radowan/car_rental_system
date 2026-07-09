@@ -11,6 +11,8 @@ class Booking extends Model
         'car_id',
         'pickup_date',
         'return_date',
+        'pickup_location',
+        'dropoff_location',
         'rental_days',
         'total_amount',
         'status',

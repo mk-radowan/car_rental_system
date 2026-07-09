@@ -59,7 +59,13 @@
                     <label><i class="bi bi-geo-alt me-1"></i> Location</label>
                     <input type="hidden" name="location" value="{{ request('location', '') }}" data-bd-location-value>
                     <div class="row g-2" data-bd-location-picker data-selected-location="{{ request('location', '') }}"
+                        data-all-divisions-label="All Divisions"
                         data-all-districts-label="All Districts" data-all-upazilas-label="All Upazilas">
+                        <div class="col-12 mb-2">
+                            <select class="form-select" data-bd-division-select>
+                                <option value="">All Divisions</option>
+                            </select>
+                        </div>
                         <div class="col-12 mb-2">
                             <select class="form-select" data-bd-district-select>
                                 <option value="">All Districts</option>

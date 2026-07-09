@@ -16,6 +16,8 @@ class BookingController extends Controller
         $validated = $request->validate([
             'pickup_date' => ['required', 'date', 'after_or_equal:today'],
             'return_date' => ['required', 'date', 'after:pickup_date'],
+            'pickup_location' => ['required', 'string', 'max:255', 'regex:/^Division\s*:\s*.+,\s*.+,\s*.+$/i'],
+            'dropoff_location' => ['required', 'string', 'max:255', 'regex:/^Division\s*:\s*.+,\s*.+,\s*.+$/i'],
         ]);
 
         if (!$car->isAvailable()) {
@@ -37,6 +39,8 @@ class BookingController extends Controller
             'car_id' => $carId,
             'pickup_date' => $pickup,
             'return_date' => $return,
+            'pickup_location' => $validated['pickup_location'],
+            'dropoff_location' => $validated['dropoff_location'],
             'rental_days' => $days,
             'total_amount' => '৳'.number_format($total),
             'status' => 'pending',

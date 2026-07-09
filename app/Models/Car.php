@@ -93,7 +93,30 @@ class Car extends Model
     public function scopeByLocation($query, ?string $location)
     {
         if ($location) {
-            return $query->where('location', 'like', '%' . trim($location) . '%');
+            $normalized = trim($location);
+
+            if (stripos($normalized, 'Division:') === 0) {
+                $segments = preg_split('/\s*,\s*/', preg_replace('/^Division\s*:\s*/i', '', $normalized));
+                $division = trim($segments[0] ?? '');
+                $segmentCount = count(array_filter($segments, function ($segment) {
+                    return trim((string) $segment) !== '';
+                }));
+
+                if ($division === '') {
+                    return $query;
+                }
+
+                if ($segmentCount <= 1) {
+                    return $query->where('location', 'like', 'Division: ' . $division . '%');
+                }
+
+                return $query->where(function ($q) use ($normalized, $division) {
+                    $q->where('location', 'like', '%' . $normalized . '%');
+                    $q->orWhere('location', 'Division: ' . $division);
+                });
+            }
+
+            return $query->where('location', 'like', '%' . $normalized . '%');
         }
 
         return $query;

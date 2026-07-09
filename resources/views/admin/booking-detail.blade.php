@@ -15,6 +15,8 @@
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Car</th><td style="color:#1a1a2e;font-weight:600;border-color:#f3f4f6">{{ $booking->car_name }}</td></tr>
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Pickup Date</th><td style="color:#1a1a2e;border-color:#f3f4f6">{{ $booking->pickup_date }}</td></tr>
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Return Date</th><td style="color:#1a1a2e;border-color:#f3f4f6">{{ $booking->return_date }}</td></tr>
+                <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Journey Start</th><td style="color:#1a1a2e;border-color:#f3f4f6">{{ $booking->pickup_location ?? 'N/A' }}</td></tr>
+                <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Journey End</th><td style="color:#1a1a2e;border-color:#f3f4f6">{{ $booking->dropoff_location ?? 'N/A' }}</td></tr>
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Rental Days</th><td style="color:#1a1a2e;border-color:#f3f4f6">{{ $booking->rental_days ?? 'N/A' }}</td></tr>
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Total Amount</th><td style="color:#10b981;font-weight:700;font-size:1.1rem;border-color:#f3f4f6">{{ $booking->total_amount }}</td></tr>
                 <tr><th style="color:#6c757d;font-weight:600;font-size:0.85rem;border-color:#f3f4f6">Status</th><td style="border-color:#f3f4f6"><span class="status-badge-{{ $booking->status }}">{{ ucfirst($booking->status) }}</span></td></tr>
