@@ -115,7 +115,8 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h6 class="mb-3"
-                        style="font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:0.5px">Cities We
+                        style="font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:0.5px">All Divisions
+                        We
                         Serve</h6>
                     <p class="small" style="color:rgba(255,255,255,0.6);line-height:1.8">
                         Dhaka · Chittagong · Khulna · Rajshahi · Sylhet · Barisal · Rangpur · Mymensingh

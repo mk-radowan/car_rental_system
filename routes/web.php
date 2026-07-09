@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    })->name('admin.home');
+
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/cars', [AdminController::class, 'cars'])->name('admin.cars');
     Route::get('/cars/create', [AdminController::class, 'createCar'])->name('admin.cars.create');
@@ -37,7 +41,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/cars/{id}', [AdminController::class, 'updateCar'])->name('admin.cars.update');
     Route::delete('/cars/{id}', [AdminController::class, 'destroyCar'])->name('admin.cars.destroy');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::post('/users/{id}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
+    Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
     Route::get('/bookings', [AdminController::class, 'bookings'])->name('admin.bookings');
+    Route::get('/bookings/create-car', [AdminController::class, 'createBookingForCustomer'])->name('admin.booking-car.create');
+    Route::post('/bookings/create-car', [AdminController::class, 'storeBookingForCustomer'])->name('admin.booking-car.store');
     Route::get('/bookings/{id}', [AdminController::class, 'viewBooking'])->name('admin.bookings.view');
     Route::post('/bookings/approve/{id}', [AdminController::class, 'approveBooking'])->name('admin.bookings.approve');
     Route::post('/bookings/reject/{id}', [AdminController::class, 'rejectBooking'])->name('admin.bookings.reject');

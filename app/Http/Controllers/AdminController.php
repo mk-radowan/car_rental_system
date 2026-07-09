@@ -6,7 +6,10 @@ use App\Models\Booking;
 use App\Models\Car;
 use App\Models\User;
 use App\Http\Controllers\CarController;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -120,10 +123,205 @@ class AdminController extends Controller
         return view('admin.users', compact('users'));
     }
 
+    public function createUser()
+    {
+        return view('admin.users-create');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique(User::class, 'email')],
+            'phone' => ['required', 'digits:11'],
+            'password' => ['required', 'string', 'min:6'],
+            'role' => ['required', Rule::in(['admin', 'customer'])],
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'User created successfully.');
+    }
+
+    public function editUser(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('admin.users-edit', compact('user'));
+    }
+
+    public function updateUser(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique(User::class, 'email')->ignore($user->id)],
+            'phone' => ['required', 'digits:11'],
+            'role' => ['required', Rule::in(['admin', 'customer'])],
+            'password' => ['nullable', 'string', 'min:6'],
+        ]);
+
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->phone = $validated['phone'];
+        $user->role = $validated['role'];
+
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+    }
+
+    public function toggleUserStatus(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (auth()->id() === $user->id) {
+            return back()->with('error', 'You cannot disable your own account.');
+        }
+
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        $statusMessage = $user->is_active ? 'enabled' : 'disabled';
+
+        return back()->with('success', 'User ' . $statusMessage . ' successfully.');
+    }
+
+    public function destroyUser(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (auth()->id() === $user->id) {
+            return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        $user->delete();
+
+        return back()->with('success', 'User deleted successfully.');
+    }
+
     public function bookings()
     {
         $bookings = Booking::orderBy('created_at', 'desc')->get();
         return view('admin.bookings', compact('bookings'));
+    }
+
+    public function createBookingForCustomer()
+    {
+        $customers = User::where('role', 'customer')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        $cars = Car::where('availability', 'available')
+            ->orderBy('brand')
+            ->orderBy('model')
+            ->get();
+
+        return view('admin.booking-car-create', compact('customers', 'cars'));
+    }
+
+    public function storeBookingForCustomer(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'car_id' => ['required', 'exists:cars,id'],
+            'pickup_date' => ['required', 'date', 'after_or_equal:today'],
+            'return_date' => ['required', 'date', 'after:pickup_date'],
+            'pickup_location' => ['required', 'string', 'max:255', 'regex:/^Division\s*:\s*.+,\s*.+(?:,\s*.+)?$/i'],
+            'dropoff_location' => ['required', 'string', 'max:255', 'regex:/^Division\s*:\s*.+,\s*.+(?:,\s*.+)?$/i'],
+            'pickup_city' => ['nullable', 'string', 'max:100'],
+            'pickup_pourosova' => ['nullable', 'string', 'max:100'],
+            'pickup_ward' => ['nullable', 'string', 'max:50'],
+            'dropoff_city' => ['nullable', 'string', 'max:100'],
+            'dropoff_pourosova' => ['nullable', 'string', 'max:100'],
+            'dropoff_ward' => ['nullable', 'string', 'max:50'],
+        ]);
+
+        $user = User::findOrFail((int) $validated['user_id']);
+        $car = Car::findOrFail((int) $validated['car_id']);
+
+        if ($user->role !== 'customer' || !$user->is_active) {
+            return back()->with('error', 'Please select a valid active customer.')->withInput();
+        }
+
+        if (!$car->isAvailable()) {
+            return back()->with('error', 'Selected car is not available.')->withInput();
+        }
+
+        $pickup = Carbon::parse($validated['pickup_date'])->format('d/m/Y');
+        $return = Carbon::parse($validated['return_date'])->format('d/m/Y');
+
+        if (Booking::hasOverlappingBooking($car->id, $pickup, $return)) {
+            return back()->with('error', 'This car is already booked for these dates.')->withInput();
+        }
+
+        $days = Carbon::parse($validated['pickup_date'])->diffInDays(Carbon::parse($validated['return_date'])) + 1;
+        $total = $car->price_per_day * $days;
+
+        $pickupLocation = $this->buildRouteLocation(
+            $validated['pickup_location'],
+            $validated['pickup_city'] ?? null,
+            $validated['pickup_pourosova'] ?? null,
+            $validated['pickup_ward'] ?? null
+        );
+
+        $dropoffLocation = $this->buildRouteLocation(
+            $validated['dropoff_location'],
+            $validated['dropoff_city'] ?? null,
+            $validated['dropoff_pourosova'] ?? null,
+            $validated['dropoff_ward'] ?? null
+        );
+
+        Booking::create([
+            'user_id' => $user->id,
+            'car_id' => $car->id,
+            'pickup_date' => $pickup,
+            'return_date' => $return,
+            'pickup_location' => $pickupLocation,
+            'dropoff_location' => $dropoffLocation,
+            'rental_days' => $days,
+            'total_amount' => '৳' . number_format($total),
+            'status' => 'approved',
+            'customer_name' => $user->name,
+            'car_name' => $car->display_name,
+        ]);
+
+        $car->availability = 'booked';
+        $car->save();
+
+        return redirect()->route('admin.bookings')->with('success', 'Booking created successfully for customer.');
+    }
+
+    private function buildRouteLocation(string $baseLocation, ?string $city, ?string $pourosova, ?string $ward): string
+    {
+        $parts = [$baseLocation];
+
+        if (!empty($city)) {
+            $parts[] = 'City: ' . trim($city);
+        }
+
+        if (!empty($pourosova)) {
+            $parts[] = 'Pourosova: ' . trim($pourosova);
+        }
+
+        if (!empty($ward)) {
+            $parts[] = 'Ward: ' . trim($ward);
+        }
+
+        return implode(' | ', $parts);
     }
 
     public function approveBooking(string $id)

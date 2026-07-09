@@ -36,6 +36,10 @@
                     href="{{ route('admin.bookings') }}">
                     <i class="bi bi-calendar-check"></i> Booking Requests
                 </a>
+                <a class="nav-link {{ request()->routeIs('admin.booking-car*') ? 'active' : '' }}"
+                    href="{{ route('admin.booking-car.create') }}">
+                    <i class="bi bi-plus-circle"></i> Booking Car
+                </a>
                 <a class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}"
                     href="{{ route('admin.users') }}">
                     <i class="bi bi-people"></i> Manage Users

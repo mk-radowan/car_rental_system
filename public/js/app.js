@@ -151,7 +151,12 @@ function findLocationValueInput(container) {
         return containerInput;
     }
 
-    const fieldWrapper = container.closest('.search-field, .mb-3, form, .col-md-6');
+    const previousSibling = container.previousElementSibling;
+    if (previousSibling && previousSibling.matches('[data-bd-location-value]')) {
+        return previousSibling;
+    }
+
+    const fieldWrapper = container.closest('.search-field, .mb-3, .col-12, .col-md-6');
     if (fieldWrapper) {
         const siblingInput = fieldWrapper.querySelector('[data-bd-location-value]');
         if (siblingInput) {

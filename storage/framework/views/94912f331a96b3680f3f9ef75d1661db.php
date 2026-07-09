@@ -36,6 +36,10 @@
                     href="<?php echo e(route('admin.bookings')); ?>">
                     <i class="bi bi-calendar-check"></i> Booking Requests
                 </a>
+                <a class="nav-link <?php echo e(request()->routeIs('admin.booking-car*') ? 'active' : ''); ?>"
+                    href="<?php echo e(route('admin.booking-car.create')); ?>">
+                    <i class="bi bi-plus-circle"></i> Booking Car
+                </a>
                 <a class="nav-link <?php echo e(request()->routeIs('admin.users') ? 'active' : ''); ?>"
                     href="<?php echo e(route('admin.users')); ?>">
                     <i class="bi bi-people"></i> Manage Users
