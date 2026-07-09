@@ -48,7 +48,9 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class, 'email')],
-            'phone' => ['required', 'string', 'max:10'],
+            'phone' => ['required', 'digits:11'],
+            'phone' => ['max:13'],
+
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required', Rule::in(['admin', 'customer'])],
         ]);

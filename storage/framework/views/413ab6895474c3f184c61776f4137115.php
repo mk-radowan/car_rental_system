@@ -112,7 +112,7 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Phone (10-digit) *</label>
+                                    <label class="form-label">Phone (11-digit) *</label>
                                     <div class="input-group">
                                         <span class="input-group-text"
                                             style="background:white;border:1.5px solid #e2e8f0;border-right:none;border-radius:8px 0 0 8px">
@@ -128,7 +128,8 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
                                             style="border-left:none;border-radius:0 8px 8px 0" value="<?php echo e(old('phone')); ?>"
-                                            placeholder="9876543210" required>
+                                            placeholder="01841911203" maxlength="11" inputmode="numeric" pattern="[0-9]{11}"
+                                            required>
                                         <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -157,9 +158,11 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
                                             style="border-left:none;border-radius:0 8px 8px 0" required>
-                                            <option value="customer" <?php echo e(old('role') === 'customer' ? 'selected' : ''); ?>>Customer
+                                            <option value="customer" <?php echo e(old('role') === 'customer' ? 'selected' : ''); ?>>
+                                                Customer
                                             </option>
-                                            <option value="admin" <?php echo e(old('role') === 'admin' ? 'selected' : ''); ?>>Admin</option>
+                                            <option value="admin" <?php echo e(old('role') === 'admin' ? 'selected' : ''); ?>>Admin
+                                            </option>
                                         </select>
                                         <?php $__errorArgs = ['role'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

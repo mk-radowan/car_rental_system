@@ -55,7 +55,7 @@ DB_PASSWORD=
 | Table | Purpose |
 |------------|---------|
 | `users` | Admin & Customer accounts |
-| `cars` | Indian market vehicles |
+| `cars` | Bangladesh market vehicles |
 | `bookings` | Rental requests (pending/approved/rejected) |
 | `reviews` | Customer car reviews |
 
@@ -63,8 +63,8 @@ DB_PASSWORD=
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@pothik.in | admin123 |
-| Customer | customer@pothik.in | customer123 |
+| Admin | admin@pothik.com | admin123 |
+| Customer | customer@pothik.com | customer123 |
 
 ## Routes
 
@@ -96,9 +96,9 @@ DB_PASSWORD=
 3. Admin **rejects** → status: **rejected**, car stays **available**
 4. Double-booking prevented for overlapping dates
 
-## Indian Cities
+## Bangladesh Cities
 
-Delhi, Mumbai, Bangalore, Hyderabad, Pune, Ahmedabad, Kolkata, Chennai, Jaipur, Surat, Lucknow, Chandigarh
+Dhaka, Chittagong, Khulna, Rajshahi, Sylhet, Barisal, Rangpur, Mymensingh
 
 ## Seeded Cars
 
@@ -119,4 +119,4 @@ public/css/          style.css, admin.css
 
 ## License
 
-MIT — Academic Project
+MIT — Internship Project

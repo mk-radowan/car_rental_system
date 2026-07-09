@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Phone (10-digit) *</label>
+                                    <label class="form-label">Phone (11-digit) *</label>
                                     <div class="input-group">
                                         <span class="input-group-text"
                                             style="background:white;border:1.5px solid #e2e8f0;border-right:none;border-radius:8px 0 0 8px">
@@ -93,7 +93,8 @@
                                         <input type="text" name="phone"
                                             class="form-control @error('phone') is-invalid @enderror"
                                             style="border-left:none;border-radius:0 8px 8px 0" value="{{ old('phone') }}"
-                                            placeholder="9876543210" required>
+                                            placeholder="01000000000" maxlength="11" inputmode="numeric" pattern="[0-9]{11}"
+                                            required>
                                         @error('phone')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -108,9 +109,11 @@
                                         </span>
                                         <select name="role" class="form-select @error('role') is-invalid @enderror"
                                             style="border-left:none;border-radius:0 8px 8px 0" required>
-                                            <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>Customer
+                                            <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>
+                                                Customer
                                             </option>
-                                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin
+                                            </option>
                                         </select>
                                         @error('role')
                                             <div class="invalid-feedback">{{ $message }}</div>
