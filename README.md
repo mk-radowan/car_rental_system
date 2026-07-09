@@ -96,7 +96,7 @@ DB_PASSWORD=
 3. Admin **rejects** → status: **rejected**, car stays **available**
 4. Double-booking prevented for overlapping dates
 
-## Bangladesh Cities
+## Bangladesh Divisions
 
 Dhaka, Chittagong, Khulna, Rajshahi, Sylhet, Barisal, Rangpur, Mymensingh
 
