@@ -119,4 +119,4 @@ public/css/          style.css, admin.css
 
 ## License
 
-MIT — Internship Project
+IsDB — Internship Project
