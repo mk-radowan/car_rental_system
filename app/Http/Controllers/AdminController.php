@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Car;
 use App\Models\User;
 use App\Http\Controllers\CarController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -371,6 +372,24 @@ class AdminController extends Controller
         $car = Car::find($booking->car_id);
 
         return view('admin.booking-detail', compact('booking', 'user', 'car'));
+    }
+
+    public function invoice(string $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        return view('bookings.invoice', compact('booking'));
+    }
+
+    public function downloadInvoice(string $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $filename = 'invoice-' . $booking->id . '.pdf';
+        $pdf = Pdf::loadView('bookings.invoice-download', compact('booking'))
+            ->setPaper('a4');
+
+        return $pdf->download($filename);
     }
 
     public function analytics()

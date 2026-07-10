@@ -18,7 +18,7 @@
                     <th>Car</th>
                     <th>Pickup</th>
                     <th>Return</th>
-                    <th>Amount</th>
+                    <th>Invoice</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -30,7 +30,22 @@
                     <td>{{ $booking->car_name }}</td>
                     <td>{{ $booking->pickup_date }}</td>
                     <td>{{ $booking->return_date }}</td>
-                    <td><strong style="color:#10b981">{{ $booking->total_amount }}</strong></td>
+                    <td>
+                        @if(($booking->payment_status ?? 'unpaid') === 'paid')
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('admin.bookings.invoice', $booking->id) }}" class="btn btn-sm" title="View Invoice"
+                                   style="background:#eef2ff;color:#3730a3;border:none;border-radius:8px">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ route('admin.bookings.invoice.download', $booking->id) }}" class="btn btn-sm" title="Download Invoice"
+                                   style="background:#ecfdf5;color:#065f46;border:none;border-radius:8px">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                            </div>
+                        @else
+                            <span class="badge" style="background:#f3f4f6;color:#6b7280">Not Paid</span>
+                        @endif
+                    </td>
                     <td><span class="status-badge-{{ $booking->status }}">{{ ucfirst($booking->status) }}</span></td>
                     <td>
                         <div class="d-flex gap-1 flex-wrap">

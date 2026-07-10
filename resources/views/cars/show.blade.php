@@ -277,7 +277,7 @@
                             </div>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-primary w-100 mt-3" style="padding:14px">
+                        <a href="{{ route('login', ['redirect' => request()->getRequestUri()]) }}" class="btn btn-primary w-100 mt-3" style="padding:14px">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Login to Book This Car
                         </a>
                     @endauth

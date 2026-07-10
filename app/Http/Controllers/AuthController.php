@@ -20,10 +20,22 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'redirect' => ['nullable', 'string'],
         ]);
+
+        $credentials = [
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+        ];
+
+        $redirect = $this->sanitizeRedirectPath($validated['redirect'] ?? null);
+
+        if ($redirect) {
+            $request->session()->put('url.intended', $redirect);
+        }
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             if (!Auth::user()->is_active) {
@@ -35,12 +47,17 @@ class AuthController extends Controller
             }
 
             $request->session()->regenerate();
-            return $this->redirectByRole();
+
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors([
             'email' => 'Invalid email or password.',
-        ])->onlyInput('email');
+        ])->onlyInput('email', 'redirect');
     }
 
     public function showRegister()
@@ -94,5 +111,24 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
         return redirect()->route('dashboard');
+    }
+
+    private function sanitizeRedirectPath(?string $redirect): ?string
+    {
+        if (!$redirect) {
+            return null;
+        }
+
+        $path = trim($redirect);
+
+        if ($path === '' || strpos($path, '//') === 0 || strpos($path, '\\') === 0) {
+            return null;
+        }
+
+        if (preg_match('/^[a-z][a-z0-9+.-]*:/i', $path)) {
+            return null;
+        }
+
+        return str_starts_with($path, '/') ? $path : null;
     }
 }

@@ -16,6 +16,10 @@ class Booking extends Model
         'rental_days',
         'total_amount',
         'status',
+        'payment_method',
+        'payment_status',
+        'payment_reference',
+        'paid_at',
         'customer_name',
         'car_name',
     ];

@@ -13,20 +13,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@pothik.in'],
+            ['email' => 'admin@pothik.com'],
             [
-                'name' => 'Admin User',
-                'phone' => '9876543210',
+                'name' => 'Khandokar Radowan',
+                'phone' => '01712345678',
                 'password' => Hash::make('admin123'),
                 'role' => 'admin',
             ]
         );
 
         User::updateOrCreate(
-            ['email' => 'customer@pothik.in'],
+            ['email' => 'customer@pothik.com'],
             [
-                'name' => 'Rahul Sharma',
-                'phone' => '9123456789',
+                'name' => 'Farhan Ahmed',
+                'phone' => '01812345678',
                 'password' => Hash::make('customer123'),
                 'role' => 'customer',
             ]
@@ -43,8 +43,16 @@ class DatabaseSeeder extends Seeder
 
     private function getCarsData(): array
     {
-        $cities = ['Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Pune', 'Ahmedabad',
-            'Kolkata', 'Chennai', 'Jaipur', 'Surat', 'Lucknow', 'Chandigarh'];
+        $cities = [
+            'Dhaka',
+            'Chittagong',
+            'Khulna',
+            'Rajshahi',
+            'Sylhet',
+            'Barisal',
+            'Rangpur',
+            'Mymensingh',
+        ];
 
         $cars = [
             ['Maruti Suzuki', 'Swift', 'Hatchback', 1200, 'Petrol', 'Manual', 5],
@@ -81,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 'price_per_day' => $car[3],
                 'rating' => round(3.8 + (mt_rand(0, 12) / 10), 1),
                 'image' => CarImageCatalog::pathFor($car[0], $car[1], 'jpg'),
-                'description' => "Premium {$car[2]} available for rent across India. Well maintained, insured, and ready for your journey.",
+                'description' => "Premium {$car[2]} available for rent across Bangladesh. Well maintained, insured, and ready for your journey.",
             ];
             $i++;
         }

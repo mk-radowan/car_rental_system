@@ -1,14 +1,12 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Login'); ?>
 
-@section('title', 'Login')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div
         style="background:linear-gradient(135deg,#f8f9fa 0%,#fef2f3 100%);min-height:100vh;display:flex;align-items:center;padding-top:80px">
         <div class="container py-5">
             <div class="row align-items-center g-5 justify-content-center">
 
-                {{-- Left panel --}}
+                
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="text-center">
                         <div class="hero-badge mb-3">Welcome Back</div>
@@ -45,7 +43,7 @@
                     </div>
                 </div>
 
-                {{-- Right: Login Form --}}
+                
                 <div class="col-lg-5 col-md-8">
                     <div class="auth-card">
                         <div class="text-center mb-4">
@@ -57,9 +55,9 @@
                             <p style="color:#6c757d;font-size:0.9rem">Sign in to your Pothik account</p>
                         </div>
 
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <input type="hidden" name="redirect" value="{{ old('redirect', request('redirect')) }}">
+                        <form method="POST" action="<?php echo e(route('login')); ?>">
+                            <?php echo csrf_field(); ?>
+                            <input type="hidden" name="redirect" value="<?php echo e(old('redirect', request('redirect'))); ?>">
                             <div class="mb-3">
                                 <label class="form-label">Email Address</label>
                                 <div class="input-group">
@@ -68,12 +66,26 @@
                                         <i class="bi bi-envelope" style="color:#e8192c"></i>
                                     </span>
                                     <input type="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror"
-                                        style="border-left:none;border-radius:0 8px 8px 0" value="{{ old('email') }}"
+                                        class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                        style="border-left:none;border-radius:0 8px 8px 0" value="<?php echo e(old('email')); ?>"
                                         placeholder="you@example.com" required autofocus>
-                                    @error('email')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -84,11 +96,25 @@
                                         <i class="bi bi-lock" style="color:#e8192c"></i>
                                     </span>
                                     <input type="password" name="password"
-                                        class="form-control @error('password') is-invalid @enderror"
+                                        class="form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                         style="border-left:none;border-radius:0 8px 8px 0" placeholder="••••••••" required>
-                                    @error('password')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <div class="mb-4 form-check">
@@ -103,7 +129,7 @@
 
                         <hr style="margin:24px 0;border-color:#f0f2f5">
                         <p class="text-center mb-3" style="color:#6c757d;font-size:0.9rem">
-                            Don't have an account? <a href="{{ route('register') }}">Register Free</a>
+                            Don't have an account? <a href="<?php echo e(route('register')); ?>">Register Free</a>
                         </p>
 
 
@@ -112,4 +138,6 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /opt/lampp/htdocs/car_rental_system/resources/views/auth/login.blade.php ENDPATH**/ ?>

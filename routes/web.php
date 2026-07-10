@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CarController::class, 'home'])->name('home');
@@ -18,9 +19,27 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/car/{id}', [CarController::class, 'show'])->name('cars.show');
 
+Route::match(['get', 'post'], '/payments/sslcommerz/success/{booking}', [BookingController::class, 'sslCommerzSuccess'])
+    ->withoutMiddleware([StartSession::class])
+    ->name('payments.ssl.success');
+Route::match(['get', 'post'], '/payments/sslcommerz/fail/{booking}', [BookingController::class, 'sslCommerzFail'])
+    ->withoutMiddleware([StartSession::class])
+    ->name('payments.ssl.fail');
+Route::match(['get', 'post'], '/payments/sslcommerz/cancel/{booking}', [BookingController::class, 'sslCommerzCancel'])
+    ->withoutMiddleware([StartSession::class])
+    ->name('payments.ssl.cancel');
+Route::match(['get', 'post'], '/payments/bkash/callback/{booking}', [BookingController::class, 'bkashCallback'])
+    ->withoutMiddleware([StartSession::class])
+    ->name('payments.bkash.callback');
+Route::get('/payments/result/{booking}', [BookingController::class, 'paymentResult'])->name('payments.result');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [BookingController::class, 'dashboard'])->name('dashboard');
     Route::post('/book/{id}', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/{booking}/payment', [BookingController::class, 'showPayment'])->name('bookings.payment.show');
+    Route::post('/bookings/{booking}/payment', [BookingController::class, 'processPayment'])->name('bookings.payment.process');
+    Route::get('/bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
+    Route::get('/bookings/{booking}/invoice/download', [BookingController::class, 'downloadInvoice'])->name('bookings.invoice.download');
     Route::get('/bookings/history', [BookingController::class, 'history'])->name('bookings.history');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -51,6 +70,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/bookings/create-car', [AdminController::class, 'createBookingForCustomer'])->name('admin.booking-car.create');
     Route::post('/bookings/create-car', [AdminController::class, 'storeBookingForCustomer'])->name('admin.booking-car.store');
     Route::get('/bookings/{id}', [AdminController::class, 'viewBooking'])->name('admin.bookings.view');
+    Route::get('/bookings/{id}/invoice', [AdminController::class, 'invoice'])->name('admin.bookings.invoice');
+    Route::get('/bookings/{id}/invoice/download', [AdminController::class, 'downloadInvoice'])->name('admin.bookings.invoice.download');
     Route::post('/bookings/approve/{id}', [AdminController::class, 'approveBooking'])->name('admin.bookings.approve');
     Route::post('/bookings/reject/{id}', [AdminController::class, 'rejectBooking'])->name('admin.bookings.reject');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('admin.analytics');

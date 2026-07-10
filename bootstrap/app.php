@@ -12,6 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'payments/sslcommerz/success/*',
+            'payments/sslcommerz/fail/*',
+            'payments/sslcommerz/cancel/*',
+            'payments/bkash/callback/*',
+        ]);
+
         $middleware->redirectGuestsTo('/login');
         $middleware->alias([
             'admin' => AdminMiddleware::class,
