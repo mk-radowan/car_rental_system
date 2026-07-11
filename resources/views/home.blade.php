@@ -59,8 +59,8 @@
                     <label><i class="bi bi-geo-alt me-1"></i> Location</label>
                     <input type="hidden" name="location" value="{{ request('location', '') }}" data-bd-location-value>
                     <div class="row g-2" data-bd-location-picker data-selected-location="{{ request('location', '') }}"
-                        data-all-divisions-label="All Divisions"
-                        data-all-districts-label="All Districts" data-all-upazilas-label="All Upazilas">
+                        data-all-divisions-label="All Divisions" data-all-districts-label="All Districts"
+                        data-all-upazilas-label="All Upazilas">
                         <div class="col-12 mb-2">
                             <select class="form-select" data-bd-division-select>
                                 <option value="">All Divisions</option>
@@ -299,23 +299,23 @@
                     [
                         'stars' => 5,
                         'quote' =>
-                            'Booked a Hyundai Creta in Bangalore. Smooth process and great  ৳ pricing! Will definitely use again.',
-                        'name' => 'Priya M.',
-                        'city' => 'Bangalore',
+                            'Booked a Hyundai Creta in Dhaka. Smooth process and great  ৳ pricing! Will definitely use again.',
+                        'name' => 'Fahim S.',
+                        'city' => 'Dhaka',
                     ],
                     [
                         'stars' => 5,
                         'quote' =>
-                            'Tata Nexon EV for my Delhi trip. Admin approval was quick and the car was in pristine condition.',
-                        'name' => 'Amit K.',
-                        'city' => 'Delhi',
+                            'Tata Nexon EV for my Rangpur trip. Admin approval was quick and the car was in pristine condition.',
+                        'name' => 'Rifat H.',
+                        'city' => 'Rangpur',
                     ],
                     [
                         'stars' => 5,
                         'quote' =>
-                            'Luxury BMW X1 in Mumbai at  ৳8000/day — worth every rupee for business travel. Top-notch service!',
-                        'name' => 'Sneha R.',
-                        'city' => 'Mumbai',
+                            'Luxury BMW X1 in Sylhet at  ৳8000/day — worth every rupee for business travel. Top-notch service!',
+                        'name' => 'Sahin A.',
+                        'city' => 'Sylhet',
                     ],
                 ];
             @endphp
@@ -365,7 +365,7 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq1">
-                                    <i class="bi bi-currency-rupee me-2 text-red"></i> What currency do you use?
+                                    <i class="bi bi-currency-takka me-2 text-red"></i> What currency do you use?
                                 </button>
                             </h2>
                             <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
@@ -393,8 +393,8 @@
                                 </button>
                             </h2>
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">Dhaka, Chittagong, Khulna, Rajshahi, Sylhet, Barisal, Rangpur,
-                                    Mymensingh, Comilla, Jessore, Bogura, and Narayanganj.</div>
+                                <div class="accordion-body">Our car rental service covers all divisional and commercial
+                                    cities across Bangladesh.</div>
                             </div>
                         </div>
                         <div class="accordion-item">

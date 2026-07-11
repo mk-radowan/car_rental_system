@@ -1,3 +1,5 @@
+@php($car = $car ?? null)
+
 <div class="row g-3">
     <div class="col-md-6">
         <label class="form-label">Brand</label>

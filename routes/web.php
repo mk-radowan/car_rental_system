@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
 
@@ -20,16 +21,32 @@ Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/car/{id}', [CarController::class, 'show'])->name('cars.show');
 
 Route::match(['get', 'post'], '/payments/sslcommerz/success/{booking}', [BookingController::class, 'sslCommerzSuccess'])
-    ->withoutMiddleware([StartSession::class])
+    ->withoutMiddleware([
+        VerifyCsrfToken::class,
+        StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ])
     ->name('payments.ssl.success');
 Route::match(['get', 'post'], '/payments/sslcommerz/fail/{booking}', [BookingController::class, 'sslCommerzFail'])
-    ->withoutMiddleware([StartSession::class])
+    ->withoutMiddleware([
+        VerifyCsrfToken::class,
+        StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ])
     ->name('payments.ssl.fail');
 Route::match(['get', 'post'], '/payments/sslcommerz/cancel/{booking}', [BookingController::class, 'sslCommerzCancel'])
-    ->withoutMiddleware([StartSession::class])
+    ->withoutMiddleware([
+        VerifyCsrfToken::class,
+        StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ])
     ->name('payments.ssl.cancel');
 Route::match(['get', 'post'], '/payments/bkash/callback/{booking}', [BookingController::class, 'bkashCallback'])
-    ->withoutMiddleware([StartSession::class])
+    ->withoutMiddleware([
+        VerifyCsrfToken::class,
+        StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    ])
     ->name('payments.bkash.callback');
 Route::get('/payments/result/{booking}', [BookingController::class, 'paymentResult'])->name('payments.result');
 
